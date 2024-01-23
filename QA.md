@@ -210,7 +210,48 @@ python --version
 ## 开发
 > 解决技术的具体问题
 
+- Q: 使用之前代码成功获得了 api.openweathermap.org 的数据:
+Temperature: 281.77 K
+但是, 单位是 K 不是摄氏度, 请问, 如何申请摄氏度的数据, 又或是如何将 K 转换为 C ?
+请用具体示例代码说明, 并解释关键行为, 以及检验办法,
+谢谢
 
+- A: 您可以通过在API请求中添加`units=metric`参数来获取摄氏度的数据。另外，您也可以将开尔文（K）转换为摄氏度（C）。以下是具体示例代码以及解释关键行为的步骤：
+
+### 申请摄氏度的数据
+您可以在API请求URL中添加`units=metric`参数来获取摄氏度的数据。下面是示例代码：
+
+```python
+import requests
+
+api_key = 'YOUR_API_KEY'
+city = input('Enter city name: ')
+url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric'
+response = requests.get(url)
+
+if response.status_code == 200:
+    data = response.json()
+    temp_celsius = data['main']['temp']
+    print(f'Temperature: {temp_celsius} °C')
+else:
+    print('Error fetching weather data')
+```
+
+### 转换开尔文到摄氏度
+如果您已经获得了开尔文的温度数据，您可以使用以下公式将其转换为摄氏度：
+```python
+def kelvin_to_celsius(kelvin_temp):
+    celsius_temp = kelvin_temp - 273.15
+    return celsius_temp
+```
+
+### 示例代码说明和检验
+- 示例代码中，我们向OpenWeatherMap API添加了`units=metric`参数，以获取摄氏度的数据。
+- 如果API请求成功，我们从响应中提取温度数据，并将其打印为摄氏度。
+- 如果您已经获得了开尔文的温度数据，您可以使用`kelvin_to_celsius`函数将其转换为摄氏度。
+- 您可以通过运行示例代码并输入城市名称来检验是否成功获取了摄氏度的数据，并且转换函数是否正确将开尔文转换为摄氏度。
+
+通过这些步骤，您应该能够成功申请摄氏度的数据，并且了解如何将开尔文转换为摄氏度。
 
 
 ## 发布
