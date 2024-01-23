@@ -26,6 +26,7 @@ def get_weather(city):
     response = requests.get(url)
     if response.status_code == 200:
         weather_data = response.json()
+        print(weather_data)
         return jsonify(weather_data)
     else:
         return jsonify({"error": "Failed to retrieve weather data"})
